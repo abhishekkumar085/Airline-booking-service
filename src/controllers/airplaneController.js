@@ -1,5 +1,6 @@
 const { AirplaneService } = require('../services');
 const { StatusCodes } = require('http-status-codes');
+
 async function createAirplane(req, res) {
   try {
     const airplane = await AirplaneService.createAirplane({
@@ -40,6 +41,4 @@ async function getAirplanes(req, res) {
   }
 }
 
-
-
-module.exports = { createAirplane,getAirplanes };
+module.exports = { createAirplane, getAirplanes };
