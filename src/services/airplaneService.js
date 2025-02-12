@@ -29,8 +29,27 @@ async function getAirplane(id) {
   }
 }
 
+async function destroyAirplane(id) {
+  try {
+    const response = await airplaneRepository.destroy(id);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+async function updateAirplane(id,data) {
+  try {
+    const response = await airplaneRepository.update(id,data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createAirplane,
   getallAirplane,
   getAirplane,
+  destroyAirplane,
+  updateAirplane
 };

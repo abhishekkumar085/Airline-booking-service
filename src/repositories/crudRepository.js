@@ -23,34 +23,25 @@ class CrudRepository {
           id: data,
         },
       });
+      if (!response) {
+        throw new Error(`Record with ID ${data} not found!`);
+      }
       return response;
     } catch (error) {
       Logger.error('something went wrong in crude repo : destroy');
-      throw error;
+      throw error.message;
     }
   }
-  // async get(data) {
-  //   try {
-  //     const response = await this.model.findByPk(data);
-  //     return response;
-  //   } catch (error) {
-  //     Logger.error('something went wrong in crude repo : get');
-  //     throw error;
-  //   }
-  // }
 
   async get(data) {
     try {
       const response = await this.model.findByPk(data);
-
       if (!response) {
-        throw new Error(`Record with ID ${data} not found`);
+        throw new Error(`Record with ID ${data} not found!`);
       }
-
       return response;
     } catch (error) {
       Logger.error(`Error in crud repo : get - ${error.message}`);
-
       throw error.message;
     }
   }
@@ -64,17 +55,24 @@ class CrudRepository {
       throw error;
     }
   }
+
   async update(id, data) {
     try {
-      const response = await this.model.update(data, {
-        where: {
-          id: id,
-        },
+      const [updatedRows] = await this.model.update(data, {
+        where: { id: id },
       });
-      return response;
+
+      if (updatedRows === 0) {
+        throw new Error(`Record with ID ${id} not found or not updated`);
+      }
+
+      const updatedData = await this.model.findByPk(id); // Fetch updated data
+
+      return updatedData;
     } catch (error) {
-      Logger.error('something went wrong in crude repo : Update');
-      throw error;
+      Logger.error(`Error in CRUD repo: Update - ${error.message}`);
+
+      throw error.message;
     }
   }
 }
