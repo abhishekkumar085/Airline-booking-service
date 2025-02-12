@@ -40,5 +40,24 @@ async function getAirplanes(req, res) {
     });
   }
 }
+async function getAirplane(req, res) {
+  console.log('hiiiiii', req.params.id);
+  try {
+    const airplane = await AirplaneService.getAirplane(req.params.id);
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'airplane getting successfully',
+      data: airplane,
+      error: {},
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: `Something went wrong!!`,
+      data: {},
+      error: error,
+    });
+  }
+}
 
-module.exports = { createAirplane, getAirplanes };
+module.exports = { createAirplane, getAirplanes,getAirplane };

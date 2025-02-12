@@ -29,18 +29,35 @@ class CrudRepository {
       throw error;
     }
   }
+  // async get(data) {
+  //   try {
+  //     const response = await this.model.findByPk(data);
+  //     return response;
+  //   } catch (error) {
+  //     Logger.error('something went wrong in crude repo : get');
+  //     throw error;
+  //   }
+  // }
+
   async get(data) {
     try {
       const response = await this.model.findByPk(data);
+
+      if (!response) {
+        throw new Error(`Record with ID ${data} not found`);
+      }
+
       return response;
     } catch (error) {
-      Logger.error('something went wrong in crude repo : get');
-      throw error;
+      Logger.error(`Error in crud repo : get - ${error.message}`);
+
+      throw error.message;
     }
   }
+
   async getAll() {
     try {
-      const response = await this.model.findAll( );
+      const response = await this.model.findAll();
       return response;
     } catch (error) {
       Logger.error('something went wrong in crude repo : GETALL');
@@ -62,4 +79,4 @@ class CrudRepository {
   }
 }
 
-module.exports=CrudRepository;
+module.exports = CrudRepository;
