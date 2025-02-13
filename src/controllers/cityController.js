@@ -13,9 +13,9 @@ async function createCity(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: 'Something went wrong!!',
+      message: error.message,
       data: {},
       error: error,
     });
@@ -23,74 +23,71 @@ async function createCity(req, res) {
 }
 async function getCities(req, res) {
   try {
-    const airplanes = await CityService.getallAirplane();
+    const airplanes = await CityService.getallCity();
     return res.status(StatusCodes.OK).json({
       success: true,
-      message: 'All Airplanes getting successfully!',
+      message: 'all city getting successfully!',
       data: airplanes,
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: 'Something went wrong!!',
+      message: error.message,
       data: {},
       error: error,
     });
   }
 }
-async function getAirplane(req, res) {
+async function getCity(req, res) {
   try {
-    const airplane = await CityService.getAirplane(req.params.id);
+    const airplane = await CityService.getCity(req.params.id);
     return res.status(StatusCodes.OK).json({
       success: true,
-      message: 'airplane getting successfully',
+      message: 'city getting successfully!',
       data: airplane,
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
   }
 }
-async function destroyAirplane(req, res) {
+async function destroyCity(req, res) {
   try {
-    const airplane = await CityService.destroyAirplane(req.params.id);
+    const airplane = await CityService.deleteCity(req.params.id);
     return res.status(StatusCodes.OK).json({
       success: true,
-      message: 'airplane deleted successfully',
+      message: 'city deleted successfully',
       data: airplane,
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
   }
 }
-async function updateAirplane(req, res) {
+async function updateCity(req, res) {
   try {
-    const airplane = await CityService.updateAirplane(
-      req.params.id,
-      req.body
-    );
+    const airplane = await CityService.updateCity(req.params.id, req.body);
     return res.status(StatusCodes.OK).json({
       success: true,
-      message: 'airplane changed successfully',
+      message: 'city updated successfully',
       data: airplane,
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
@@ -100,7 +97,7 @@ async function updateAirplane(req, res) {
 module.exports = {
   createCity,
   getCities,
-  getAirplane,
-  destroyAirplane,
-  updateAirplane,
+  getCity,
+  destroyCity,
+  updateCity,
 };

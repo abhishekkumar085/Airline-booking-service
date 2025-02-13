@@ -14,9 +14,9 @@ async function createAirplane(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: 'Something went wrong!!',
+      message: error.message,
       data: {},
       error: error,
     });
@@ -32,9 +32,9 @@ async function getAirplanes(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: 'Something went wrong!!',
+      message: error.message,
       data: {},
       error: error,
     });
@@ -50,9 +50,9 @@ async function getAirplane(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
@@ -68,9 +68,9 @@ async function destroyAirplane(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
@@ -78,7 +78,10 @@ async function destroyAirplane(req, res) {
 }
 async function updateAirplane(req, res) {
   try {
-    const airplane = await AirplaneService.updateAirplane(req.params.id,req.body);
+    const airplane = await AirplaneService.updateAirplane(
+      req.params.id,
+      req.body
+    );
     return res.status(StatusCodes.OK).json({
       success: true,
       message: 'airplane changed successfully',
@@ -86,13 +89,19 @@ async function updateAirplane(req, res) {
       error: {},
     });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(error.statusCode).json({
       success: false,
-      message: `Something went wrong!!`,
+      message: error.message,
       data: {},
       error: error,
     });
   }
 }
 
-module.exports = { createAirplane, getAirplanes,getAirplane,destroyAirplane ,updateAirplane};
+module.exports = {
+  createAirplane,
+  getAirplanes,
+  getAirplane,
+  destroyAirplane,
+  updateAirplane,
+};

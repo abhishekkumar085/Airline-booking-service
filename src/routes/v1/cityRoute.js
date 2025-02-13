@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.post('/', CityController.createCity);
 router.get('/', CityController.getCities);
-router.get('/:id', CityController.getAirplane);
-router.delete('/:id', CityController.destroyAirplane);
-router.patch('/:id', CityController.updateAirplane);
+router.get('/:id', CityController.getCity);
+router.delete('/:id', CityController.destroyCity);
+router.patch('/:id', CityController.updateCity);
 
 module.exports = router;
