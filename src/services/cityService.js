@@ -7,7 +7,7 @@ const cityRepository = new CityRepository();
 async function createCity(data) {
   try {
     if (!data.name || data.name.trim() === '') {
-      throw new Error('City name cannot be empty');
+      throw new Error('City name cannot be empty',StatusCodes.BAD_REQUEST);
     }
     const city = await cityRepository.create(data);
     return city;
@@ -23,7 +23,7 @@ async function createCity(data) {
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
     throw new AppError(
-      'Cannot create a new resource!',
+      error.message,
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
