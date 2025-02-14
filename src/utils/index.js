@@ -1,3 +1,4 @@
 module.exports = {
-    AppError:require('./appError')
-}
+  AppError: require('./appError'),
+  SeatType: require('./ENUM/enum'),
+};
