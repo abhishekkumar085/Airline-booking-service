@@ -7,13 +7,13 @@ const cityRepository = new CityRepository();
 async function createCity(data) {
   try {
     if (!data.name || data.name.trim() === '') {
-      throw new Error('City name cannot be empty',StatusCodes.BAD_REQUEST);
+      throw new AppError('City name cannot be empty', StatusCodes.BAD_REQUEST);
     }
     const city = await cityRepository.create(data);
     return city;
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
-      throw error.errors[0].message;
+      throw new AppError(error.errors[0].message, StatusCodes.CONFLICT);
     }
     if (error.name === 'SequelizeValidationError') {
       let explanation = [];
@@ -22,10 +22,7 @@ async function createCity(data) {
       });
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
-    throw new AppError(
-      error.message,
-      StatusCodes.INTERNAL_SERVER_ERROR
-    );
+    throw new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
 
@@ -34,6 +31,7 @@ async function getallCity() {
     const cities = await cityRepository.getAll();
     return cities;
   } catch (error) {
+    console.log('city', error);
     throw new AppError(
       'Cannot fetch data of all the resource',
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -65,10 +63,7 @@ async function deleteCity(id) {
     return response;
   } catch (error) {
     if (error.statusCode == StatusCodes.NOT_FOUND) {
-      throw new AppError(
-        error.message,
-        error.statusCode
-      );
+      throw new AppError(error.message, error.statusCode);
     }
     throw new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }
