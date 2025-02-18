@@ -90,7 +90,20 @@ async function getAllFlights(query) {
   }
 }
 
+async function getFlightById(flightId) {
+  try {
+    const response = await flightRepository.get(flightId);
+    return response;
+  } catch (error) {
+    throw new AppError(
+      'cannot fetch data of the flight',
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
 module.exports = {
   createFlight,
   getAllFlights,
+  getFlightById,
 };

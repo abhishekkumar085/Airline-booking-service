@@ -33,7 +33,26 @@ async function createFlight(req, res) {
 async function getAllFlights(req, res) {
   try {
     const flights = await FlightService.getAllFlights(req.query);
-    return res.status(StatusCodes.CREATED).json({
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Successfully getting the resource!',
+      data: flights,
+      error: {},
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+      data: {},
+      error: error,
+    });
+  }
+}
+async function getFlightById(req, res) {
+  try {
+    const id=req.params.id;
+    const flights = await FlightService.getFlightById(id);
+    return res.status(StatusCodes.OK).json({
       success: true,
       message: 'Successfully getting the resource!',
       data: flights,
@@ -52,4 +71,5 @@ async function getAllFlights(req, res) {
 module.exports = {
   createFlight,
   getAllFlights,
+  getFlightById,
 };
