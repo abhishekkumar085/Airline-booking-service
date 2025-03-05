@@ -50,7 +50,7 @@ async function getAllFlights(req, res) {
 }
 async function getFlightById(req, res) {
   try {
-    const id=req.params.id;
+    const id = req.params.id;
     const flights = await FlightService.getFlightById(id);
     return res.status(StatusCodes.OK).json({
       success: true,
@@ -67,9 +67,32 @@ async function getFlightById(req, res) {
     });
   }
 }
+async function updateSeats(req, res) {
+  try {
+    const response = await FlightService.updateSeats({
+      flightId: req.params.id,
+      seats: req.body.seats,
+      dec: req.body.dec,
+    });
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Successfully updated the resource!',
+      data: response,
+      error: {},
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+      data: {},
+      error: error,
+    });
+  }
+}
 
 module.exports = {
   createFlight,
   getAllFlights,
   getFlightById,
+  updateSeats,
 };
